@@ -1,3 +1,5 @@
+#created by Mehmet Deniz Ozkahraman aka 'mdo'.
+
 import subprocess
 import optparse
 import re
@@ -11,11 +13,13 @@ def get_user_input():
     return parse_object.parse_args()
 
 def change_mac_address(user_interface, user_mac_address):
+
     subprocess.call(['ifconfig',user_interface,'down'])
     subprocess.call(['ifconfig',user_interface,'hw','ether', user_mac_address])
     subprocess.call(['ifconfig',user_interface,'up'])
 
 def control_new_mac(interface):
+
     ifconfig = subprocess.check_output(["ifconfig", interface])
     new_mac = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", str(ifconfig))
 
@@ -34,5 +38,10 @@ finalized_mac = control_new_mac(str(user_input.interface))
 
 if finalized_mac == user_input.mac_address:
     print("Success!")
+    print("Your new " + user_input.interface + "'s MAC Address: " + finalized_mac)
 else:
     print("Error!!")
+    print("MAC Address is NOT changed! : " + finalized_mac)
+
+
+
