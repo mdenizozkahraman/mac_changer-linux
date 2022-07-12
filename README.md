@@ -1,6 +1,8 @@
 # mac_changer-linux
+___________________
  MAC Address changer in Linux systems with Python.
 
+<<<<<<< Updated upstream
 ## Installation
 
 git clone https://github.com/mdenizozkahraman/mac_changer-linux.git
@@ -9,3 +11,8 @@ git clone https://github.com/mdenizozkahraman/mac_changer-linux.git
 ## Usage
 
 python3 mac_changer-linux.py --interface [eth0, wlan0 etc.] --mac [MAC Address]
+=======
+Usage
+
+
+>>>>>>> Stashed changes
