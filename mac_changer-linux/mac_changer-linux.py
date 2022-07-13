@@ -1,4 +1,4 @@
-#created by Mehmet Deniz Ozkahraman aka 'mdo'.
+#created by Mehmet Deniz Ozkahraman
 
 import subprocess
 import optparse
