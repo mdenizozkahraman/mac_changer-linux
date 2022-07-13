@@ -2,7 +2,6 @@
 ___________________
  MAC Address changer in Linux systems with Python.
 
-<<<<<<< Updated upstream
 ## Installation
 
 git clone https://github.com/mdenizozkahraman/mac_changer-linux.git
