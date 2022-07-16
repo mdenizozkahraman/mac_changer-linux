@@ -8,5 +8,7 @@ git clone https://github.com/mdenizozkahraman/mac_changer-linux.git
 
 
 ## Usage
+(Make sure your operating system and python are up to date!)
 
+python3 mac_changer-linux.py
 
