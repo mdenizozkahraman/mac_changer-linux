@@ -1,7 +1,6 @@
 # created by Mehmet Deniz Ozkahraman
 
 import subprocess
-import optparse
 import re
 import random
 
@@ -62,12 +61,14 @@ def first_mac(interface):
         return None
 
 
-
 print("""
 *********************
 MAC CHANGER STARTED
 *********************
 """)
+
+
+
 
 while True:
     choice = str(input("""
@@ -82,15 +83,20 @@ while True:
 
     interface = str(input("Interface (eth0, wlan0 etc.): "))
 
+    f = open("mac-addresses.txt", "r+")
+
     real_mac = str(first_mac(interface))
 
-    tupList = (str(real_mac), 1)
+    f.write(real_mac)
+
+    first_mac_address = str(f.read(17))
 
     if choice == "1":
 
         fixed_mac = str(random_mac_generator())
 
         change_mac_address(interface, fixed_mac)
+
         control_new_mac(interface)
 
         finalized_mac = control_new_mac(interface)
@@ -103,9 +109,7 @@ while True:
             print("MAC Address is NOT changed! : " + finalized_mac)
         break
 
-
     elif choice == "2":
-
 
         print(
             "MAC Address must be include hexadecimal numbers (" + str(hex_charlist) + ") but 2nd digit must NOT be '1'")
@@ -124,18 +128,15 @@ while True:
             print("MAC Address is NOT changed! : " + finalized_mac)
         break
 
-
-
     elif choice == "3":
 
-
-        change_mac_address(interface, tupList[0])
+        change_mac_address(interface, first_mac_address)
 
         control_new_mac(interface)
 
         finalized_mac = control_new_mac(interface)
 
-        if finalized_mac == tupList[0]:
+        if finalized_mac == first_mac_address:
             print("Success!")
             print("Your new " + interface + "'s MAC Address: " + finalized_mac)
         else:
@@ -143,11 +144,13 @@ while True:
             print("MAC Address is NOT changed! : " + finalized_mac)
         break
 
-
     elif choice == "Q":
         print("PROGRAM IS TERMINATING...")
+        f.close()
         break
 
     else:
         print("Please enter 1, 2, 3 or Q!")
+
+f.close()
 
