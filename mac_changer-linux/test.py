@@ -1,4 +1,4 @@
-# created by Mehmet Deniz Ozkahraman
+#created by Mehmet Deniz Ozkahraman
 
 import subprocess
 import optparse
@@ -8,6 +8,8 @@ import random
 hex_charlist = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"]
 hex_charlist2 = [0, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"]
 mac_list = []
+tuple_first_mac = ()
+
 
 
 def random_char_generator():
@@ -15,8 +17,6 @@ def random_char_generator():
         a = random.choice(hex_charlist)
         mac_list.append(a)
     return mac_list
-
-
 def random_mac_generator():
     def random_char_generator():
         for digit in range(12):
@@ -35,14 +35,13 @@ def random_mac_generator():
 
     return mac_address
 
-
 def change_mac_address(user_interface, user_mac_address):
-    subprocess.call(['ifconfig', user_interface, 'down'])
-    subprocess.call(['ifconfig', user_interface, 'hw', 'ether', user_mac_address])
-    subprocess.call(['ifconfig', user_interface, 'up'])
 
-
+    subprocess.call(['ifconfig',user_interface,'down'])
+    subprocess.call(['ifconfig',user_interface,'hw','ether', user_mac_address])
+    subprocess.call(['ifconfig',user_interface,'up'])
 def control_new_mac(interface):
+
     ifconfig = subprocess.check_output(["ifconfig", interface])
     new_mac = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", str(ifconfig))
 
@@ -51,15 +50,12 @@ def control_new_mac(interface):
     else:
         return None
 
-
 def first_mac(interface):
+
     ifconfig = subprocess.check_output(["ifconfig", interface])
     first_mac = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", str(ifconfig))
+    return first_mac
 
-    if first_mac:
-        return first_mac.group(0)
-    else:
-        return None
 
 
 
@@ -68,6 +64,8 @@ print("""
 MAC CHANGER STARTED
 *********************
 """)
+
+
 
 while True:
     choice = str(input("""
@@ -78,15 +76,15 @@ while True:
 
     Q-)EXIT THE MAC CHANGER
 
-    Choice: """))
-
-    interface = str(input("Interface (eth0, wlan0 etc.): "))
-
-    real_mac = str(first_mac(interface))
-
-    tupList = (str(real_mac), 1)
+    Choice: 
+    """))
 
     if choice == "1":
+
+        interface = str(input("Interface (eth0, wlan0 etc.): "))
+
+        tuple_first_mac = tuple(first_mac(interface))
+
 
         fixed_mac = str(random_mac_generator())
 
@@ -105,10 +103,11 @@ while True:
 
 
     elif choice == "2":
+        interface = str(input("Interface (eth0, wlan0 etc.): "))
 
+        tuple_first_mac = tuple(first_mac(interface))
 
-        print(
-            "MAC Address must be include hexadecimal numbers (" + str(hex_charlist) + ") but 2nd digit must NOT be '1'")
+        print("MAC Address must be include hexadecimal numbers (" + str(hex_charlist)+") but 2nd digit must NOT be '1'")
         mac_address = str(input("MAC ADDRESS (XX:XX:XX:XX:XX:XX):"))
 
         change_mac_address(interface, mac_address)
@@ -124,18 +123,21 @@ while True:
             print("MAC Address is NOT changed! : " + finalized_mac)
         break
 
-
-
     elif choice == "3":
+        interface = str(input("Interface (eth0, wlan0 etc.): "))
 
+        tuple_first_mac = tuple(first_mac(interface))
 
-        change_mac_address(interface, tupList[0])
+        ifconfig = subprocess.check_output(["ifconfig", interface])
+        real_mac = re.search(r"\w\w:\w\w:\w\w:\w\w:\w\w:\w\w", str(ifconfig))
+
+        change_mac_address(interface, str(tuple_first_mac))
 
         control_new_mac(interface)
 
         finalized_mac = control_new_mac(interface)
 
-        if finalized_mac == tupList[0]:
+        if finalized_mac == str(tuple_first_mac):
             print("Success!")
             print("Your new " + interface + "'s MAC Address: " + finalized_mac)
         else:
