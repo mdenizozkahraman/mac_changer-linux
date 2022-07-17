@@ -12,3 +12,7 @@ git clone https://github.com/mdenizozkahraman/mac_changer-linux.git
 
 python3 mac_changer-linux.py
 
+## More Informaiton
+
+https://medium.com/@mehmetdenizozkahraman/mac-changer-linux-f3dbd8671937
+
