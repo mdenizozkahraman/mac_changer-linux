@@ -62,9 +62,13 @@ def first_mac(interface):
 
 
 print("""
-*********************
-MAC CHANGER STARTED
-*********************
+by mdo //-
+                                        _                                              _  _                     
+   _ __ ___    __ _   ___          ___ | |__    __ _  _ __    __ _   ___  _ __        | |(_) _ __   _   _ __  __
+  | '_ ` _ \  / _` | / __|        / __|| '_ \  / _` || '_ \  / _` | / _ \| '__| _____ | || || '_ \ | | | |\ \/ /
+  | | | | | || (_| || (__        | (__ | | | || (_| || | | || (_| ||  __/| |   |_____|| || || | | || |_| | >  < 
+  |_| |_| |_| \__,_| \___| _____  \___||_| |_| \__,_||_| |_| \__, | \___||_|          |_||_||_| |_| \__,_|/_/\ \ 
+                          |_____|                            |___/                                              
 """)
 
 
@@ -73,17 +77,27 @@ MAC CHANGER STARTED
 while True:
     choice = str(input("""
 
-    1-)RANDOM MAC ADDRESS
-    2-)MANUEL MAC ADDRESS
-    3-)REAL MAC ADDRESS
+1-)RANDOM MAC ADDRESS
+2-)MANUEL MAC ADDRESS
+3-)REAL MAC ADDRESS
 
-    Q-)EXIT THE MAC CHANGER
+Q-)EXIT THE MAC CHANGER
 
-    Choice: """))
+Choice: """))
+    f = open("mac-addresses.txt", "r+")
+
+    if choice == "Q":
+        print("PROGRAM IS TERMINATING...")
+        break
+    elif ((choice != "1") and (choice != "2") and (choice != "3") and (choice != "Q")):
+        print("")
+        print("Please enter 1, 2, 3 or Q!")
+        continue
+
 
     interface = str(input("Interface (eth0, wlan0 etc.): "))
 
-    f = open("mac-addresses.txt", "r+")
+
 
     real_mac = str(first_mac(interface))
 
@@ -144,13 +158,7 @@ while True:
             print("MAC Address is NOT changed! : " + finalized_mac)
         break
 
-    elif choice == "Q":
-        print("PROGRAM IS TERMINATING...")
-        f.close()
-        break
 
-    else:
-        print("Please enter 1, 2, 3 or Q!")
 
 f.close()
 
